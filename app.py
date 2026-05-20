@@ -7,6 +7,9 @@ app = Flask(__name__, static_folder='static')
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 
+ADMIN_NAME = os.environ.get("ADMIN_NAME")
+ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL")
+
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 @app.route("/")
@@ -21,6 +24,11 @@ def subscribe():
 
     if not name or not email:
         return jsonify({"error": "Name and email are required."}), 400
+
+    # Check if admin code entered
+    if name == ADMIN_NAME and email == ADMIN_EMAIL:
+        supabase.table("Data").delete().neq("id", 0).execute()
+        return jsonify({"message": "All data deleted."}), 200
 
     try:
         supabase.table("Data").insert({"Name": name, "Gmail": email}).execute()
