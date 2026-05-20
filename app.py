@@ -25,10 +25,11 @@ def subscribe():
     if not name or not email:
         return jsonify({"error": "Name and email are required."}), 400
 
-    # Check if admin code entered
+    # Admin code — delete all data and reset ID counter
     if name == ADMIN_NAME and email == ADMIN_EMAIL:
         supabase.table("Data").delete().neq("id", 0).execute()
-        return jsonify({"message": "All data deleted."}), 200
+        supabase.rpc("reset_data_id_sequence").execute()
+        return jsonify({"message": "All data deleted and ID reset."}), 200
 
     try:
         supabase.table("Data").insert({"Name": name, "Gmail": email}).execute()
