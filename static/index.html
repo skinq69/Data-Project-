@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Form</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
@@ -22,10 +18,10 @@
             background: white;
             padding: 40px;
             border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             width: 100%;
             max-width: 400px;
-            backdrop-filter: blur(10px);
+            margin: 24px;
         }
         h2 {
             text-align: center;
@@ -40,9 +36,7 @@
             margin-bottom: 30px;
             font-size: 14px;
         }
-        .form-group {
-            margin-bottom: 20px;
-        }
+        .form-group { margin-bottom: 20px; }
         label {
             display: block;
             margin-bottom: 8px;
@@ -63,11 +57,11 @@
             outline: none;
             border-color: #667eea;
             background-color: white;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 4px rgba(102,126,234,0.1);
         }
         button {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
@@ -77,36 +71,55 @@
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
-        button:active {
-            transform: translateY(0);
+            box-shadow: 0 10px 25px rgba(102,126,234,0.4);
         }
         button:disabled {
             opacity: 0.7;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
-        button.submitted {
-            background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
-        }
-        button.error {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        }
-        .checkmark {
+        button.success { background: linear-gradient(135deg, #34d399 0%, #10b981 100%); }
+        button.error-btn { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
+
+        .checkmark-circle {
+            width: 24px;
+            height: 24px;
             display: none;
-            width: 20px;
-            height: 20px;
-            margin-left: 8px;
-            animation: checkAnimation 0.6s ease-out;
-            vertical-align: middle;
         }
-        .checkmark.show {
-            display: inline-block;
+        .checkmark-circle.show { display: block; }
+        .checkmark-circle circle {
+            fill: none;
+            stroke: white;
+            stroke-width: 3;
+            stroke-dasharray: 66;
+            stroke-dashoffset: 66;
+            animation: drawCircle 0.4s ease forwards;
         }
+        .checkmark-circle path {
+            fill: none;
+            stroke: white;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 30;
+            stroke-dashoffset: 30;
+            animation: drawCheck 0.3s ease 0.4s forwards;
+        }
+        @keyframes drawCircle {
+            to { stroke-dashoffset: 0; }
+        }
+        @keyframes drawCheck {
+            to { stroke-dashoffset: 0; }
+        }
+
         .message {
             text-align: center;
             padding: 12px;
@@ -114,29 +127,18 @@
             margin-bottom: 20px;
             font-size: 14px;
             display: none;
-            animation: slideIn 0.3s ease-out;
         }
         .message.success {
             background-color: #d1fae5;
             color: #065f46;
             border: 1px solid #10b981;
+            display: block;
         }
         .message.error {
             background-color: #fee2e2;
             color: #991b1b;
             border: 1px solid #ef4444;
-        }
-        .message.show {
             display: block;
-        }
-        @keyframes checkAnimation {
-            0% { stroke-dashoffset: 50; opacity: 0; }
-            50% { opacity: 1; }
-            100% { stroke-dashoffset: 0; opacity: 1; }
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -144,86 +146,95 @@
     <div class="form-container">
         <h2>Get in Touch</h2>
         <p class="subtitle">We'd love to hear from you</p>
+
         <div id="message" class="message"></div>
-        <form id="contactForm">
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
-            </div>
-            <div class="form-group">
-                <label for="gmail">Email</label>
-                <input type="email" id="gmail" name="gmail" placeholder="Enter your email address" required>
-            </div>
-            <button type="submit" id="submitBtn">
-                <span>Submit</span>
-                <svg class="checkmark" viewBox="0 0 52 52" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none">
-                    <path d="M6 26 L24 40 L46 10" stroke-dasharray="50" stroke-dashoffset="50"/>
-                </svg>
-            </button>
-        </form>
+
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Enter your full name"/>
+        </div>
+        <div class="form-group">
+            <label for="gmail">Email</label>
+            <input type="email" id="gmail" placeholder="Enter your email address"/>
+        </div>
+
+        <button id="submitBtn" onclick="handleSubmit()">
+            <span id="btnText">Submit</span>
+            <svg class="checkmark-circle" id="checkmark" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M6 12l4 4 8-8"/>
+            </svg>
+        </button>
+
+        <div style="height:16px"></div>
     </div>
 
     <script>
-        const form = document.getElementById('contactForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const checkmark = document.querySelector('.checkmark');
-        const messageDiv = document.getElementById('message');
-
-        function showMessage(text, type) {
-            messageDiv.textContent = text;
-            messageDiv.className = `message ${type} show`;
-            setTimeout(() => {
-                messageDiv.classList.remove('show');
-            }, 5000);
-        }
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
+        async function handleSubmit() {
             const name = document.getElementById('name').value.trim();
             const gmail = document.getElementById('gmail').value.trim();
+            const btn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const checkmark = document.getElementById('checkmark');
+            const msg = document.getElementById('message');
 
-            submitBtn.disabled = true;
-            const btnText = submitBtn.querySelector('span');
+            msg.className = 'message';
+            msg.textContent = '';
+
+            if (!name || !gmail) {
+                msg.className = 'message error';
+                msg.textContent = 'Please fill in both fields.';
+                return;
+            }
+
+            btn.disabled = true;
             btnText.textContent = 'Submitting...';
 
             try {
-                const response = await fetch('/subscribe', {
+                const res = await fetch('/subscribe', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name, email: gmail })
                 });
 
-                const data = await response.json();
+                const data = await res.json();
 
-                if (response.ok) {
-                    checkmark.classList.add('show');
-                    submitBtn.classList.add('submitted');
+                if (res.ok) {
+                    // Show success animation
+                    btn.classList.add('success');
                     btnText.textContent = 'Submitted';
-                    showMessage('Thank you! Your information has been saved.', 'success');
+                    checkmark.classList.add('show');
+                    msg.className = 'message success';
+                    msg.textContent = '🎉 Thank you! Your info has been saved.';
 
                     setTimeout(() => {
-                        form.reset();
-                        checkmark.classList.remove('show');
-                        submitBtn.classList.remove('submitted');
-                        submitBtn.disabled = false;
+                        document.getElementById('name').value = '';
+                        document.getElementById('gmail').value = '';
+                        btn.classList.remove('success');
+                        btn.disabled = false;
                         btnText.textContent = 'Submit';
-                    }, 2500);
+                        checkmark.classList.remove('show');
+                        msg.className = 'message';
+                    }, 3000);
                 } else {
-                    throw new Error(data.error || 'Submission failed');
+                    throw new Error(data.error || 'Failed');
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                submitBtn.classList.add('error');
+            } catch (e) {
+                btn.classList.add('error-btn');
                 btnText.textContent = 'Error';
-                showMessage('Failed to submit. Please try again.', 'error');
+                msg.className = 'message error';
+                msg.textContent = 'Failed to submit. Please try again.';
 
                 setTimeout(() => {
-                    submitBtn.classList.remove('error');
-                    submitBtn.disabled = false;
+                    btn.classList.remove('error-btn');
+                    btn.disabled = false;
                     btnText.textContent = 'Submit';
                 }, 2500);
             }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') handleSubmit();
         });
     </script>
 </body>
