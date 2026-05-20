@@ -23,7 +23,7 @@ def subscribe():
         return jsonify({"error": "Name and email are required."}), 400
 
     try:
-        supabase.table("Data").insert({"name": name, "email": email}).execute()
+        supabase.table("Data").insert({"Name": name, "Gmail": email}).execute()
         return jsonify({"message": "Success"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
