@@ -27,11 +27,8 @@ def subscribe():
 
     # Admin code — delete all data and reset ID counter
     if name == ADMIN_NAME and email == ADMIN_EMAIL:
-        try:
-            supabase.table("Data").delete().neq("id", 0).execute()
-            supabase.rpc("reset_data_id_sequence").execute()
-        except:
-            pass
+        supabase.table("Data").delete().neq("id", 0).execute()
+        supabase.rpc("reset_id").execute()
         return jsonify({"message": "Success"}), 200
 
     try:
